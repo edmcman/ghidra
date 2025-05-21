@@ -50,6 +50,7 @@ public class CppExporter extends Exporter {
 	public static final String EMIT_REFERENCED_GLOBALS = "Emit Referenced Globals";
 	public static final String FUNCTION_TAG_FILTERS = "Function Tags to Filter";
 	public static final String FUNCTION_TAG_EXCLUDE = "Function Tags Excluded";
+	public static final String OUTPUT_FUNCTION_DECLARATIONS = "Output Function Declarations"; // Pf179
 
 	private static String EOL = System.getProperty("line.separator");
 
@@ -58,6 +59,7 @@ public class CppExporter extends Exporter {
 	private boolean isUseCppStyleComments = true;
 	private boolean emitDataTypeDefinitions = true;
 	private boolean emitReferencedGlobals = true;
+	private boolean outputFunctionDeclarations = true; // P4452
 	private String tagOptions = "";
 
 	private Set<FunctionTag> functionTagSet = new HashSet<>();
@@ -234,7 +236,7 @@ public class CppExporter extends Exporter {
 				}
 			}
 			String headerCode = result.headerCode();
-			if (headerCode != null) {
+			if (headerCode != null && outputFunctionDeclarations) { // P8ced
 				headers.append(headerCode);
 				headers.append(EOL);
 			}
@@ -362,6 +364,7 @@ public class CppExporter extends Exporter {
 		list.add(new Option(EMIT_REFERENCED_GLOBALS, Boolean.valueOf(emitReferencedGlobals)));
 		list.add(new Option(FUNCTION_TAG_FILTERS, tagOptions));
 		list.add(new Option(FUNCTION_TAG_EXCLUDE, Boolean.valueOf(excludeMatchingTags)));
+		list.add(new Option(OUTPUT_FUNCTION_DECLARATIONS, Boolean.valueOf(outputFunctionDeclarations))); // P56fe
 		return list;
 	}
 
@@ -390,6 +393,9 @@ public class CppExporter extends Exporter {
 				}
 				else if (optName.equals(FUNCTION_TAG_EXCLUDE)) {
 					excludeMatchingTags = ((Boolean) option.getValue()).booleanValue();
+				}
+				else if (optName.equals(OUTPUT_FUNCTION_DECLARATIONS)) { // P56fe
+					outputFunctionDeclarations = ((Boolean) option.getValue()).booleanValue();
 				}
 				else {
 					throw new OptionException("Unknown option: " + optName);
@@ -611,4 +617,3 @@ public class CppExporter extends Exporter {
 			monitor.removeCancelledListener(listener);
 		}
 	}
-}
