@@ -108,6 +108,15 @@ When Eclipse finishes building the projects, Ghidra can be launched and debugged
 
 For more detailed information on developing Ghidra, please read the [Developer Guide][devguide]. 
 
+## Extensions and Plugins
+
+Ghidra supports extensions that can add new functionality through plugins. For information on how 
+plugins are enabled or disabled in tools, and whether extension plugins can be automatically enabled, 
+please see:
+
+* [Plugin Enablement Guide](GhidraDocs/PluginEnablementGuide.md) - Comprehensive guide to plugin management
+* [Extension Plugin Quick Start](GhidraDocs/ExtensionPluginQuickStart.md) - Quick reference for users and developers
+
 ## Contribute
 If you would like to contribute bug fixes, improvements, and new features back to Ghidra, please 
 take a look at our [Contributor Guide][contrib] to see how you can participate in this open 
